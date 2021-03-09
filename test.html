@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="" lang="zh" dir="ltr" data-whatinput="mouse" data-whatintent="mouse">
+
+<head>
+    <title>拼读拼音学习</title>
+    <link rel="stylesheet" href="./data/foundation.css">
+    <link rel="stylesheet" href="./data/app.css">
+    <script src="./allPy.js"></script>
+</head>
+
+<body>
+    <div id="BAIDU_DUP_fp_wrapper"
+        style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;">
+        <iframe id="BAIDU_DUP_fp_iframe" src="./data/o.html"
+            style="width: 0px; height: 0px; visibility: hidden; display: none;">
+        </iframe>
+    </div>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-8 medium-7 small-6 cell">
+                <h2>拼读拼音学习</h2>
+                <p>用鼠标手指点读</p>
+            </div>
+        </div>
+
+        <div class="expanded button-group large">
+            <a href="./pinyin.html" class="button chinesepinyin">拼音</a>
+            <a href="./shengdiao.html" class="button chinesepinyin">声调</a>
+            <a href="./pindu.html" class="button chinesepinyin">拼读</a>
+        </div>
+        <div class="toggle-wrapper">
+            <h3 class="combined">拼音组合拼读</h3>
+            <h3 class="split">拼音拆分拼读</h3>
+        </div>
+        <hr>
+        <div id="smlist" class="grid-x grid-padding-x toggle">
+
+        </div>
+        <div id="pylist" class="grid-x grid-padding-x toggle" style="display: none;">
+
+        </div>
+        <hr>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var Arr = Object.keys(array);
+            var pyArr = []; //定义一个数组来保存点击每个a标签的值，例如:pyArr = ['b', 'ai']
+            createList(pyArr, 'smlist') //调用createList来创建元素
+            $("div#smlist").delegate("a", "click", function () {
+                pyArr.push($(this).html()); //把每次点击的值保存到数组里面
+                $('#smlist').empty() //清空smlist下所有元素
+                createList(pyArr, 'smlist')
+                i = i + 1
+            });
+
+        })
+    </script>
+    <script src="./data/what-input.js"></script>
+    <script src="./data/foundation.js"></script>
+    <script src="./data/app.js"></script>
+
+
+</body>
+
+</html>
