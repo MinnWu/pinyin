@@ -1,3 +1,5 @@
+
+
 var array = {
     //单韵母声调
     'a': ['ā', 'á', 'ǎ', 'à'],
@@ -508,21 +510,25 @@ function createList(strArr, divid) {
                 a = document.createElement("a");//创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
                 a.className = "button expanded chinesepinyin3";
                 a.innerText = arr[index];
-                div.appendChild(a)
+                div.appendChild(a);
                 divobj.appendChild(div);
             }
         } else {
             arr = array[strArr[0]][strArr[1]];
-            console.log(arr)
+            div = document.createElement('div');
+            div.className = "large-8 medium-8 cell";
+            div2 = document.createElement('div');
+            div2.className = "expanded button-group large";
             for (let index = 0; index < arr.length; index++) {
-                div = document.createElement('div');
-                div.className = "large-3 medium-3 small-4 cell";
                 a = document.createElement("a");//创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
                 a.className = "button expanded chinesepinyin3";
                 a.innerText = arr[index];
-                div.appendChild(a)
-                divobj.appendChild(div);
+                a.attr = index + 1
+                div2.appendChild(a);
             }
+            div.appendChild(div2);
+            divobj.appendChild(div);
+            return arr.length
         }
     } else {
         //arr[40]的值是'b'
@@ -532,7 +538,7 @@ function createList(strArr, divid) {
             a = document.createElement("a");
             a.className = "button expanded chinesepinyin3";
             a.innerText = arr[index];
-            div.appendChild(a)
+            div.appendChild(a);
             divobj.appendChild(div);
         }
     }

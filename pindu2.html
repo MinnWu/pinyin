@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./data/foundation.css">
     <link rel="stylesheet" href="./data/app.css">
     <meta class="foundation-mq">
+    <script src="./allPy.js"></script>
     <style>
         .toggle-wrapper {
             display: flex;
@@ -63,84 +64,11 @@
             <h3 class="combined">拼音组合拼读</h3>
             <h3 class="split">拼音拆分拼读</h3>
         </div>
+        <hr>
         <div id="smlist" class="grid-x grid-padding-x toggle">
-            <div class="large-8 medium-8 cell">
-                <p>请选择声母...</p>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">b</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">p</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">m</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">f</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">d</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">t</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">n</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">l</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">g</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">k</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">h</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">j</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">q</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">x</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">zh</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">ch</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">sh</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">r</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">z</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">c</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">s</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">y</a>
-            </div>
-            <div class="large-3 medium-3 small-4 cell">
-                <a class="button expanded chinesepinyin3">w</a>
-            </div>
-        </div>
-        <div class="grid-x grid-padding-x toggle" style="display:none;">
 
         </div>
-        <!-- <div class="grid-x grid-padding-x toggle">
+        <!-- <div class="grid-x grid-padding-x toggle" style="display:none;">
 
             <div class="large-8 medium-8 cell">
                 <p>分别在下面输入框中声母和韵母,系统会自动读该声母和韵组成的拼音.例如:b - a → ba , b - i - ao → biao</p>
@@ -161,9 +89,9 @@
                     <a class="button chinesepinyin3 combined" value="4">\</a>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="grid-x grid-padding-x toggle" style="display:none;">
+        <div class="grid-x grid-padding-x toggle" style="display: none;">
             <div class="large-8 medium-8 cell">
                 <p>在下面输入框中输入要拆分拼读的拼音.例如:ba → b - a - ba , biao → b - i - ao - baio</p>
 
@@ -177,7 +105,7 @@
                     <a class="button chinesepinyin3 split" value="4">\</a>
                 </div>
             </div>
-        </div> -->
+        </div>
         <hr>
 
     </div>
@@ -200,107 +128,149 @@
         mp3.type = 'audio/mpeg';
         $("#player").append(mp3);
 
-        var arr, flag = 2;
-        // $(function () {
-        //     $('.button.chinesepinyin3.combined').on("touchend click", async function () {
-        //         var sm = document.querySelector('#input_shengmu').value;
-        //         var ym = document.querySelector('#input_yunmu').value;
-        //         var ym2 = document.querySelector('#input_yunmu2').value;
-        //         document.querySelector('#show_pinyu').placeholder = sm + ym + ym2
-        //         var str = sm + ym + ym2
-        //         if (isExist(str)) {
-        //             if (typeof isExist(str) == 'string') {
-        //                 arr = isExist(str)
-        //                 if (smlist.includes(arr)) {
-        //                     mp3.src = './all/' + arr + '.mp3';
-        //                 } else {
-        //                     mp3.src = './all/' + arr + $(this).attr('value') + '.mp3';
-        //                 }
-        //                 player.load();
-        //                 player.play();
-        //             } else {
-        //                 arr = isExist(str)
-        //                 for (let index = 0; index < arr.length; index++) {
-        //                     if (index < arr.length - 1) {
-        //                         if (index < arr.length - 2) {
-        //                             mp3.src = './all/' + arr[index] + '.mp3';
-        //                         } else {
-        //                             if (arr[index] == 'ü') {
-        //                                 arr[index] = 'v';
-        //                             }
-        //                             mp3.src = './all/' + arr[index] + $(this).attr('value') + '.mp3';
-        //                         }
-        //                     } else {
-        //                         mp3.src = burl + arr[index] + $(this).attr('value') + '.mp3';
-        //                     }
-        //                     player.load();
-        //                     player.play();
-        //                     await delay(1000)
-        //                 }
-        //             }
-        //         }
-        //     });
-        //     $('.button.chinesepinyin3.split').on("touchend click", async function () {
-        //         var str = document.querySelector('#split_pinyin').value
-        //         if (isExist(str)) {
-        //             if (typeof isExist(str) == 'string') {
-        //                 arr = isExist(str)
-        //                 if (smlist.includes(arr)) {
-        //                     mp3.src = './all/' + arr + '.mp3';
-        //                 } else {
-        //                     mp3.src = './all/' + arr + $(this).attr('value') + '.mp3';
-        //                 }
-        //                 player.load();
-        //                 player.play();
-        //             } else {
-        //                 arr = isExist(str)
-        //                 mp3.src = burl + arr[arr.length - 1] + $(this).attr('value') + '.mp3';
-        //                 player.load();
-        //                 player.play();
-        //                 await delay(1000)
-        //                 for (let index = 0; index < arr.length; index++) {
-        //                     if (index < arr.length - 1) {
-        //                         if (index < arr.length - 2) {
-        //                             mp3.src = './all/' + arr[index] + '.mp3';
-        //                         } else {
-        //                             if (arr[index] == 'ü') {
-        //                                 arr[index] = 'v';
-        //                             }
-        //                             mp3.src = './all/' + arr[index] + $(this).attr('value') + '.mp3';
-        //                         }
-        //                     } else {
-        //                         mp3.src = burl + arr[index] + $(this).attr('value') + '.mp3';
-        //                     }
-        //                     player.load();
-        //                     player.play();
-        //                     await delay(1000)
-        //                 }
-        //             }
-        //         }
-        //     });
-        //     $('#sangpinjie').on('click', function () {
-        //         $('#input_yunmu2').toggle();
-        //         if (flag === 2) {
-        //             $('#sangpinjie').attr('value', '二拼节音');
-        //             flag = 3;
-        //         } else {
-        //             $('#sangpinjie').attr('value', '三拼节音');
-        //             flag = 2;
-        //         }
+        var arr, num, pyArr = [], flag = 2;
+        var Arr = Object.keys(array);
 
-        //         document.querySelector('#input_shengmu').value = "";
-        //         document.querySelector('#input_yunmu').value = "";
-        //         document.querySelector('#input_yunmu2').value = "";
-        //     });
-        //     $('.combined').on('click', function () {
-        //         $($('.toggle')[0]).show();
-        //         $($('.toggle')[1]).hide();
-        //     });
-        //     $('.split').on('click', function () {
-        //         $($('.toggle')[0]).hide();
-        //         $($('.toggle')[1]).show();
-        //     });
-        // });
+        $(function () {
+            // pyArr = []; //定义一个数组来保存点击每个a标签的值，例如:pyArr = ['b', 'ai']
+            createList(pyArr, 'smlist'); //调用createList来创建元素
+            $("div#smlist").delegate("a", "click", async function () {
+                if (i < 2) {
+                    pyArr.push($(this).html()); //把每次点击的值保存到数组里面
+                    $('#smlist').empty() //清空smlist下所有元素
+                    num = createList(pyArr, 'smlist')
+                    for (let index = 0; index < num; index++) {
+                        $('#smlist a').eq(index).attr("value", index + 1)
+                    }
+                } else {
+                    arr = isExist(pyArr[1])
+                    console.log(arr)
+                    for (let index = 0; index < arr.length; index++) {
+                        if (index < arr.length - 1) {
+                            if (index < arr.length - 2) {
+                                mp3.src = './all/' + arr[index] + '.mp3';
+                            } else {
+                                if (arr[index] == 'ü') {
+                                    arr[index] = 'v';
+                                }
+                                mp3.src = './all/' + arr[index] + $(this).attr('value') + '.mp3';
+                            }
+                        } else {
+                            mp3.src = burl + arr[index] + $(this).attr('value') + '.mp3';
+                        }
+                        player.load();
+                        player.play();
+                        await delay(1000)
+                    }
+                }
+                i = i + 1
+            });
+
+
+            //     $('.button.chinesepinyin3.combined').on("touchend click", async function () {
+            //         var sm = document.querySelector('#input_shengmu').value;
+            //         var ym = document.querySelector('#input_yunmu').value;
+            //         var ym2 = document.querySelector('#input_yunmu2').value;
+            //         document.querySelector('#show_pinyu').placeholder = sm + ym + ym2
+            //         var str = sm + ym + ym2
+            //         if (isExist(str)) {
+            //             if (typeof isExist(str) == 'string') {
+            //                 arr = isExist(str)
+            //                 if (smlist.includes(arr)) {
+            //                     mp3.src = './all/' + arr + '.mp3';
+            //                 } else {
+            //                     mp3.src = './all/' + arr + $(this).attr('value') + '.mp3';
+            //                 }
+            //                 player.load();
+            //                 player.play();
+            //             } else {
+            //                 arr = isExist(str)
+            //                 for (let index = 0; index < arr.length; index++) {
+            //                     if (index < arr.length - 1) {
+            //                         if (index < arr.length - 2) {
+            //                             mp3.src = './all/' + arr[index] + '.mp3';
+            //                         } else {
+            //                             if (arr[index] == 'ü') {
+            //                                 arr[index] = 'v';
+            //                             }
+            //                             mp3.src = './all/' + arr[index] + $(this).attr('value') + '.mp3';
+            //                         }
+            //                     } else {
+            //                         mp3.src = burl + arr[index] + $(this).attr('value') + '.mp3';
+            //                     }
+            //                     player.load();
+            //                     player.play();
+            //                     await delay(1000)
+            //                 }
+            //             }
+            //         }
+            //     });
+            $('.button.chinesepinyin3.split').on("touchend click", async function () {
+                var str = document.querySelector('#split_pinyin').value
+                if (isExist(str)) {
+                    if (typeof isExist(str) == 'string') {
+                        arr = isExist(str)
+                        if (smlist.includes(arr)) {
+                            mp3.src = './all/' + arr + '.mp3';
+                        } else {
+                            mp3.src = './all/' + arr + $(this).attr('value') + '.mp3';
+                        }
+                        player.load();
+                        player.play();
+                    } else {
+                        arr = isExist(str)
+                        mp3.src = burl + arr[arr.length - 1] + $(this).attr('value') + '.mp3';
+                        player.load();
+                        player.play();
+                        await delay(1000)
+                        for (let index = 0; index < arr.length; index++) {
+                            if (index < arr.length - 1) {
+                                if (index < arr.length - 2) {
+                                    mp3.src = './all/' + arr[index] + '.mp3';
+                                } else {
+                                    if (arr[index] == 'ü') {
+                                        arr[index] = 'v';
+                                    }
+                                    mp3.src = './all/' + arr[index] + $(this).attr('value') + '.mp3';
+                                }
+                            } else {
+                                mp3.src = burl + arr[index] + $(this).attr('value') + '.mp3';
+                            }
+                            player.load();
+                            player.play();
+                            await delay(1000)
+                        }
+                    }
+                }
+            });
+            //     $('#sangpinjie').on('click', function () {
+            //         $('#input_yunmu2').toggle();
+            //         if (flag === 2) {
+            //             $('#sangpinjie').attr('value', '二拼节音');
+            //             flag = 3;
+            //         } else {
+            //             $('#sangpinjie').attr('value', '三拼节音');
+            //             flag = 2;
+            //         }
+
+            //         document.querySelector('#input_shengmu').value = "";
+            //         document.querySelector('#input_yunmu').value = "";
+            //         document.querySelector('#input_yunmu2').value = "";
+            //     });
+            $('.combined').on('click', function () {
+                pyArr = [];
+                i = 0;
+                $('#smlist').empty()
+                createList(pyArr, 'smlist')
+                $($('.toggle')[0]).show();
+                $($('.toggle')[1]).hide();
+            });
+            $('.split').on('click', function () {
+                document.querySelector('#split_pinyin').value = "";
+                $($('.toggle')[0]).hide();
+                $($('.toggle')[1]).show();
+            });
+        });
 
     </script>
 
