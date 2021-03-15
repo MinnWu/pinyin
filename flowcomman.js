@@ -674,22 +674,7 @@ function createList(strArr, divid) {
 			if (flag == 'input') {		//input模式
 				arr = finElementForArr(strArr[0]);
 				console.log('arr is :', arr)
-				if (arr.length != 1) {
-					for (let index = 0; index < arr.length; index++) {
-						div = document.createElement('div');
-						div.className = "large-3 medium-3 small-4 cell";
-						a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
-						a.className = "button expanded chinesepinyin3";
-						a.innerText = arr[index];
-						div.appendChild(a);
-						divobj.appendChild(div);
-					}
-				} else {
-					$('#split_pinyin').attr('maxlength', arr[0].length);
-					let newArr = [];
-					newArr = slpitPy(arr[0])//这句有改动
-					console.log('newArr is :', newArr)
-					arr = getpysd(newArr);
+				if (Object.keys(array).slice(0, 24).includes(strArr[0])) {
 					div = document.createElement('div');	//创建htm元素
 					div.className = "large-8 medium-8 cell";
 					div2 = document.createElement('div');
@@ -712,11 +697,57 @@ function createList(strArr, divid) {
 							$('#' + divid + ' a').eq(index).css("pointer-events", "none");
 						} else {
 							$('#' + divid + ' a').eq(index).attr("value", index + 1);
-							$('#' + divid + ' a').eq(index).attr("text", newArr.slice(-1));
+							$('#' + divid + ' a').eq(index).attr("text", strArr.slice(-1));
 						}
 					}
-					document.querySelector('#showpy label').innerHTML = newArr.slice(-1)
+					document.querySelector('#showpy label').innerHTML = strArr.slice(-1)
 					$('.py').show();
+
+				} else {
+					if (arr.length != 1) {
+						for (let index = 0; index < arr.length; index++) {
+							div = document.createElement('div');
+							div.className = "large-3 medium-3 small-4 cell";
+							a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
+							a.className = "button expanded chinesepinyin3";
+							a.innerText = arr[index];
+							div.appendChild(a);
+							divobj.appendChild(div);
+						}
+					} else {
+						$('#split_pinyin').attr('maxlength', arr[0].length);
+						let newArr = [];
+						newArr = slpitPy(arr[0])//这句有改动
+						console.log('newArr is :', newArr)
+						arr = getpysd(newArr);
+						div = document.createElement('div');	//创建htm元素
+						div.className = "large-8 medium-8 cell";
+						div2 = document.createElement('div');
+						div2.className = "expanded button-group large";
+						for (let index = 0; index < arr.length; index++) {
+							a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
+							a.className = "button expanded chinesepinyin3 customBtn";
+							if (arr[index] == 'null') {
+								a.innerText = '≠≠≠';
+							} else {
+								a.innerText = arr[index];
+							}
+							div2.appendChild(a);
+						}
+						div.appendChild(div2);
+						divobj.appendChild(div);
+						for (let index = 0; index < arr.length; index++) {		//给新创建的a标签加属性
+							if (arr[index] == 'null') {
+								$('#' + divid + ' a').eq(index).attr("disabled", true);
+								$('#' + divid + ' a').eq(index).css("pointer-events", "none");
+							} else {
+								$('#' + divid + ' a').eq(index).attr("value", index + 1);
+								$('#' + divid + ' a').eq(index).attr("text", strArr.slice(-1));
+							}
+						}
+						document.querySelector('#showpy label').innerHTML = strArr.slice(-1);
+						$('.py').show();
+					}
 				}
 			} else {	//click模式
 				arr = getpysd(strArr);
@@ -873,23 +904,30 @@ $(function () {
 		flag = 'click';
 		var pyArr;
 		if (document.querySelectorAll('#ydlist .large a').length > 0) {
-			pyArr = $(this).attr('text')
-			arr = isExistPinYin(pyArr);
-			console.log(arr)
-			for (let index = 0; index < arr.length; index++) {
-				if (index < arr.length - 1) {
-					if (index < arr.length - 2) {
-						mp3.src = hanyuPyUrl + arr[index] + '.mp3';
-					} else {
-						mp3.src = hanyuPyUrl + arr[index] + $(this).attr('value') + '.mp3';
-					}
-				} else {
-					mp3.src = baiduPyUrl + arr[index] + $(this).attr('value') + '.mp3';
-					console.log(mp3.src)
-				}
+			pyArr = $(this).attr('text');
+			if (Object.keys(array).slice(0, 24).includes(pyArr)) {
+				mp3.src = hanyuPyUrl + pyArr + $(this).attr('value') + '.mp3';
 				player.load();
 				player.play();
 				await delay(1000);
+			} else {
+				arr = isExistPinYin(pyArr);
+				console.log(arr)
+				for (let index = 0; index < arr.length; index++) {
+					if (index < arr.length - 1) {
+						if (index < arr.length - 2) {
+							mp3.src = hanyuPyUrl + arr[index] + '.mp3';
+						} else {
+							mp3.src = hanyuPyUrl + arr[index] + $(this).attr('value') + '.mp3';
+						}
+					} else {
+						mp3.src = baiduPyUrl + arr[index] + $(this).attr('value') + '.mp3';
+						console.log(mp3.src)
+					}
+					player.load();
+					player.play();
+					await delay(1000);
+				}
 			}
 		} else {
 			$('#ydlist').empty();
