@@ -1,5 +1,4 @@
-var array, allList, pylist, shengmuList, jqx, spy, resultArr, flag, arr, num, i = 0, pyArr = [];
-array = {
+var array = {
 	//单韵母声调
 	'a': ['ā', 'á', 'ǎ', 'à'],
 	'o': ['ō', 'ó', 'ǒ', 'ò'],
@@ -44,9 +43,11 @@ array = {
 	'yin': ['yīn', 'yín', 'yǐn', 'yìn'],
 	'yun': ['yūn', 'yún', 'yǔn', 'yùn'],
 	'ying': ['yīng', 'yíng', 'yǐng', 'yìng'],
-	//声母
-	// 'b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g', 'k', 'h', 'j', 'q', 'x', 'zh', 'ch', 'sh', 'r', 'z'
-	// 'c', 's', 'y', 'w'
+	//散拼音节
+	'spyj': ['ia', 'ua', 'uo', 'uai', 'iao', 'ian', 'iang', 'uan', 'uang', 'iong', 'üan'],
+	//特殊拼音
+	'teshu': ['ju', 'juan', 'jue', 'jun', 'qu', 'quan', 'que', 'qun', 'xu', 'xuan', 'xue', 'xun', 'lü', 'lue', 'lüe', 'nü', 'nüe'],
+	//完整拼音
 	b: {
 		'ba': ['bā', 'bá', 'bǎ', 'bà'],
 		'bai': ['bāi', 'bái', 'bǎi', 'bài'],
@@ -65,7 +66,6 @@ array = {
 		'bo': ['bō', 'bó', 'bǒ', 'bò'],
 		'bu': ['bū', 'bú', 'bǔ', 'bù']
 	},
-
 	p: {
 		'pa': ['pā', 'pá', 'null', 'pà'],
 		'pai': ['pāi', 'pái', 'pǎi', 'pài'],
@@ -493,297 +493,141 @@ array = {
 	}
 };
 
-allList = [
-	//韵母
-	'a', 'o', 'e', 'i', 'u', 'ü', 'ai', 'ei', 'ui', 'ao', 'ou', 'iu', 'ie', 'üe', 'er',
-	'an', 'en', 'in', 'un', 'ün', 'ang', 'eng', 'ing', 'ong',
-	//整体认读音节
-	'zhi', 'chi', 'shi',
-	'ri', 'zi', 'ci', 'si', 'yi', 'wu', 'yu', 'ye', 'yue', 'yuan', 'yin', 'yun', 'ying',
-	//声母
-	'b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g', 'k', 'h', 'j', 'q', 'x', 'zh', 'ch', 'sh', 'r', 'z',
-	'c', 's', 'y', 'w',
-	//b
-	'ba', 'bai', 'ban', 'bang', 'bao', 'bei', 'ben', 'beng', 'bi', 'bian', 'biao', 'bie', 'bin', 'bing', 'bo', 'bu',
-	//p
-	'pa', 'pai', 'pan', 'pang', 'pao', 'pei', 'pen', 'peng', 'pi', 'pian', 'piao', 'pie', 'pin', 'ping', 'po',
-	'pou', 'pu',
-	//m
-	'ma', 'mai', 'man', 'mang', 'mao', 'me', 'mei', 'men', 'meng', 'mi', 'mian', 'miao', 'mie', 'min', 'ming',
-	'miu', 'mo', 'mou', 'mu',
-	//f
-	'fa', 'fan', 'fang', 'fei', 'fen', 'feng', 'fo', 'fou', 'fu',
-	//d
-	'da', 'dai', 'dan', 'dang', 'dao', 'de', 'den', 'dei', 'deng', 'di', 'dia', 'dian', 'diao', 'die', 'ding',
-	'diu', 'dong', 'dou', 'du', 'duan', 'dui', 'dun', 'duo',
-	//t
-	'ta', 'tai', 'tan', 'tang', 'tao', 'te', 'teng', 'ti', 'tian', 'tiao', 'tie', 'ting', 'tong', 'tou', 'tu',
-	'tuan', 'tui', 'tun', 'tuo',
-	//n
-	'na', 'nai', 'nan', 'nang', 'nao', 'ne', 'nei', 'nen', 'neng', 'ni', 'nian', 'niang', 'niao', 'nie', 'nin',
-	'ning', 'niu', 'nong', 'nou', 'nu', 'nü', 'nuan', 'nüe', 'nuo', 'nun',
-	//l
-	'la', 'lai', 'lan', 'lang', 'lao', 'le', 'lei', 'leng', 'li', 'lia', 'lian', 'liang', 'liao', 'lie', 'lin',
-	'ling', 'liu', 'long', 'lou', 'lu', 'lü', 'luan', 'lue', 'lüe', 'lun', 'luo',
-	//g
-	'ga', 'gai', 'gan', 'gang', 'gao', 'ge', 'gei', 'gen', 'geng', 'gong', 'gou', 'gu', 'gua', 'guai', 'guan',
-	'guang', 'gui', 'gun', 'guo',
-	//k
-	'ka', 'kai', 'kan', 'kang', 'kao', 'ke', 'ken', 'keng', 'kong', 'kou', 'ku', 'kua', 'kuai', 'kuan', 'kuang',
-	'kui', 'kun', 'kuo',
-	//h
-	'ha', 'hai', 'han', 'hang', 'hao', 'he', 'hei', 'hen', 'heng', 'hong', 'hou', 'hu', 'hua', 'huai', 'huan',
-	'huang', 'hui', 'hun', 'huo',
-	//j
-	'ji', 'jia', 'jian', 'jiang', 'jiao', 'jie', 'jin', 'jing', 'jiong', 'jiu', 'ju', 'juan', 'jue', 'jun', 'jǔn',
-	'jùn',
-	//q
-	'qi', 'qia', 'qian', 'qiang', 'qiao', 'qie', 'qin', 'qing', 'qiong', 'qiu', 'qu', 'quan', 'que', 'qun', 'qǔn',
-	'qùn',
-	//x
-	'xi', 'xia', 'xian', 'xiang', 'xiao', 'xie', 'xin', 'xing', 'xiong', 'xiu', 'xu', 'xuan', 'xue', 'xun',
-	//zh
-	'zha', 'zhai', 'zhan', 'zhang', 'zhao', 'zhe', 'zhei', 'zhen', 'zheng', 'zhong', 'zhou', 'zhu', 'zhua', 'zhuai',
-	'zhuan', 'zhuang', 'zhui', 'zhun', 'zhuo',
-	//ch
-	'cha', 'chai', 'chan', 'chang', 'chao', 'che', 'chen', 'cheng', 'chi', 'chong', 'chou', 'chu', 'chua', 'chuai',
-	'chuan', 'chuang', 'chui', 'chun', 'chuo',
-	//sh
-	'sha', 'shai', 'shan', 'shang', 'shao', 'she', 'shei', 'shen', 'sheng', 'shi', 'shou', 'shu', 'shua', 'shuai',
-	'shuan', 'shuang', 'shui', 'shun', 'shuo',
-	//r
-	'ran', 'rang', 'rao', 're', 'ren', 'reng', 'ri', 'rong', 'rou', 'ru', 'ruan', 'rui', 'run', 'ruo',
-	//z
-	'za', 'zai', 'zan', 'zang', 'zao', 'ze', 'zei', 'zen', 'zeng', 'zi', 'zong', 'zou', 'zu', 'zuan', 'zui', 'zun',
-	'zuo',
-	//c
-	'ca', 'cai', 'can', 'cang', 'cao', 'ce', 'cen', 'ceng', 'ci', 'cong', 'cou', 'cu', 'cuan', 'cui', 'cun', 'cuo',
-	//s
-	'sa', 'sai', 'san', 'sang', 'sao', 'se', 'sen', 'seng', 'si', 'song', 'sou', 'su', 'suan', 'sui', 'sun', 'suo',
-	//y
-	'ya', 'yan', 'yang', 'yao', 'ye', 'yi', 'yin', 'ying', 'yo', 'yong', 'you', 'yu', 'yuan', 'yue', 'yun',
-	//w
-	'wa', 'wai', 'wan', 'wang', 'wei', 'wen', 'weng', 'wo', 'wu',
-];
-pylist = ['a', 'o', 'e', 'i', 'u', 'ü', 'ai', 'ei', 'ui', 'ao', 'ou', 'iu', 'ie', 'üe', 'er',
-	'an', 'en', 'in', 'un', 'ün', 'ang', 'eng', 'ing', 'ong', 'b', 'p', 'm', 'f', 'd', 't', 'n', 'l',
-	'g', 'k', 'h', 'j', 'q', 'x', 'zh', 'ch', 'sh', 'r', 'z', 'c', 's', 'y', 'w', 'zhi', 'chi', 'shi',
-	'ri', 'zi', 'ci', 'si', 'yi', 'wu', 'yu', 'ye', 'yue', 'yuan', 'yin', 'yun', 'ying'
-];
-shengmuList = ['b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g', 'k', 'h', 'j', 'q', 'x', 'zh', 'ch', 'sh', 'r', 'z',
-	'c', 's', 'y', 'w',
-];
-jqx = ['j', 'q', 'x', 'un', 'un', 'un', 'ue', 'l', 'üe'];
-spy = ['ia', 'ua', 'uo', 'uai', 'uan', 'ian', 'iao', 'iang', 'uang', 'iong'];
-
-var Arr = Object.keys(array);
-
 /**
  * 检查输入是否为拼音，是就返回一个拆解后的拼音数组，例如：传入一个"biao"将返回"['b','i','ao']",否就返回false
  * @param {*} str 一个拼音字符串
  * @returns 拆解后的拼音数组或false
  */
-function isExistPinYin(str) {
-	//先将接收的拼音的ü转换成v
-	str = switchToV(str)
-	//allList包含全部没有音调的拼音，如果不包含接收的拼音，则不是拼音，可能是单词
-	if (allList.includes(str)) {
-		//pylist包含所有韵母的整体认读音，如果包含接收的拼音，则接收的拼音是韵母或整体认读音，直接返出去发声
-		if (pylist.includes(str)) {
-			//因为要呈现到页面，所以要把v转换成ü
-			str = switchToV(str)
-			return str
-		} else {
-			if (str == 'lue') {	//这个拼音在网上查了，有争议，所以这里强制换成“lüe”
-				str = 'lüe';
-			}
-			let arr = [];  //定义一个数组来保存拆分后的拼音，例如：biao将被拆分成['b','i','ao']
-			arr.push(str.substr(0, 1));
-			arr.push(str.substr(1, str.length));
-			if (arr[1].substr(0, 1) == 'h') {  //如果拼音的第二位字符是h的话，那么这个拼音就是翘舌音，要重新拆分该拼音
-				arr[0] = str.substr(0, 2);
-				arr[1] = str.substr(2, str.length);
-			}
-			if (spy.includes(arr[1])) {  //spy是所有三节拼音的数组，所以这里要处理一下
-				arr.push(arr[1].substr(1, arr[1].length));
-				arr[1] = arr[1].substr(0, 1);
-			}
-			if (arr[1] == 'üe') {
-				arr[1] = 've';
-			}
-			// if (str == 'lue') {
-			// 	arr = ['l', 'u', 'lue'];
-			// 	return arr
-			// }
-			if (jqx.includes(arr[0]) && arr[1].includes('u')) {		//这里处理一下ju,qu,xu
-				arr[1] = arr[1].replace(/u/, 'v')
-				console.log('在这里呢', arr[1])
-			}
-			arr.push(str);
-			arr = switchToV(arr)
-			return arr;
+function isExistPinYin(str, flag = true) {
+	str = switchVtoU(str)
+	var arr1, arr2
+	arr1 = wzPy()
+	arr2 = Object.keys(array).slice(0, 39)
+	arr2 = arr2.concat(Object.keys(array).slice(42))	//arr2是一个包含声母，韵母，整体认读音节的数组
+	if (arr2.includes(str)) {
+		return str
+	} else if (arr1.includes(str)) {
+		if (flag) {
+			str = switchUToV(str)
 		}
+		arr1 = []
+		arr1.push(str.slice(0, 1))
+		arr1.push(str.slice(1))
+		if (arr1[1].includes('h')) {
+			arr1[0] = str.slice(0, 2)
+			arr1[1] = str.slice(2)
+		}
+		if (array.spyj.includes(arr1[1])) {
+			arr1.push(arr1[1].slice(1))
+			arr1[1] = arr1[1].slice(0, 1)
+		}
+		if (array.teshu.slice(0, 12).includes(str)) {
+			arr1[1] = arr1[1].replace(/u/, 'v')
+		}
+		arr1.push(str)
+		return arr1
 	} else {
-		return false;
+		console.log('There is not pinyin')
+		return false
 	}
 }
 
-/**
- * 切换烦人的üe，ü，v
- * @param {*} str 
- * @returns 
- */
-function switchToV(str) {
-	var other = ['lü', 'lüe', 'nü', 'nüe', 'üe']
-	if (str == 'v') {
-		str = 'ü'
-	} else if (str == 'ü') {
-		str = 'v'
-	} else if (other.includes(str[2])) {
-		str[2] = str[2].replace(/ü/, 'v')
+function wzPy() {
+	var arr = Object.keys(array).slice(42), newArr = []
+	for (let index = 0; index < arr.length; index++) {
+		newArr.push(Object.keys(array[arr[index]]))
 	}
-	if (str[1] == 'ü') {
-		str[1] = 'v'
-	}
-	return str;
+	return Array.prototype.concat.apply([], newArr)     //数组降维
 }
 
-/**
- * 创建html列表的
- * @param {*} strArr 可以是string,也可以是array
- * @param {*} divid 你要在哪个父div下创建，就传入其id
- * @returns 
- */
-function createList(strArr, divid) {
-	var arr, div, divobj, a;
-	divobj = document.getElementById(divid);
-	arr = Object.keys(array);
-	if (strArr.length) {	//当strArr为字符串且不是声母和韵母时，生成二级页面，也就是以某个声母为开头的所有拼音列表
-		if (arr.slice(40).includes(strArr[i])) {
-			arr = Object.keys(array[strArr[i]]);
+function switchVtoU(str) {
+	if (str.includes('v')) {
+		str = str.replace(/v/, 'ü')
+	}
+	return str
+}
+
+function switchUToV(str) {
+	if (str == 'ü' || str == 'üe' || str == 'ün') {
+		str = str.replace(/ü/, 'v')
+	} else if (array.teshu.slice(12).includes(str)) {
+		str = str.replace(/u/, 'v')
+		str = str.replace(/ü/, 'v')
+	}
+	return str
+}
+
+function getpysd(str) {
+	var arr1, arr2
+	arr1 = Object.keys(array).slice(0, 39)
+	arr2 = wzPy()
+	if (arr1.includes(str)) {
+		return array[str]
+	} else if (arr2.includes(str)) {
+		arr2 = isExistPinYin(str, false)
+		return array[arr2[0]][arr2.slice(-1)]
+	} else {
+		return false
+	}
+}
+
+function finElementForArr(str) {
+	var arr = wzPy()
+	arr = arr.filter(function (ele, index) { return ele.startsWith(str) })
+	return arr
+}
+
+function createList(str, divid) {
+	var arr, divobj, div, div2, a
+	arr = Object.keys(array)
+	divobj = document.getElementById(divid)
+	if (str) {
+		if (str.includes('v')) {
+			str = switchVtoU(str)
+		}
+		arr = getpysd(str)
+		if (arr) {
+			div = document.createElement('div');	//创建htm元素
+			div.className = "large-8 medium-8 cell";
+			div2 = document.createElement('div');
+			div2.className = "expanded button-group large";
+			for (let index = 0; index < arr.length; index++) {
+				a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
+				a.className = "button expanded chinesepinyin3 customBtn";
+				if (arr[index] == 'null') {
+					a.innerText = '≠≠≠';
+				} else {
+					a.innerText = arr[index];
+				}
+				div2.appendChild(a);
+			}
+			div.appendChild(div2);
+			divobj.appendChild(div);
+			for (let index = 0; index < arr.length; index++) {		//给新创建的a标签加属性
+				if (arr[index] == 'null') {
+					$('#' + divid + ' a').eq(index).attr("disabled", true);
+					$('#' + divid + ' a').eq(index).css("pointer-events", "none");
+				} else {
+					$('#' + divid + ' a').eq(index).attr("value", index + 1);
+					$('#' + divid + ' a').eq(index).attr("text", str);
+				}
+			}
+			document.querySelector('#showpy label').innerHTML = str
+			$('.py').show();
+		} else {
+			arr = finElementForArr(str)
 			for (let index = 0; index < arr.length; index++) {
 				div = document.createElement('div');
 				div.className = "large-3 medium-3 small-4 cell";
-				a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
+				a = document.createElement("a");
 				a.className = "button expanded chinesepinyin3";
 				a.innerText = arr[index];
 				div.appendChild(a);
 				divobj.appendChild(div);
 			}
-		} else {	//生成三级页面，想要生成三级页面，strArr必须是数组，三级页面显示某个拼音与其所有声调
-			if (flag == 'input') {		//input模式
-				arr = finElementForArr(strArr[0]);
-				console.log('arr is :', arr)
-				if (Object.keys(array).slice(0, 24).includes(strArr[0])) {
-					div = document.createElement('div');	//创建htm元素
-					div.className = "large-8 medium-8 cell";
-					div2 = document.createElement('div');
-					div2.className = "expanded button-group large";
-					for (let index = 0; index < arr.length; index++) {
-						a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
-						a.className = "button expanded chinesepinyin3 customBtn";
-						if (arr[index] == 'null') {
-							a.innerText = '≠≠≠';
-						} else {
-							a.innerText = arr[index];
-						}
-						div2.appendChild(a);
-					}
-					div.appendChild(div2);
-					divobj.appendChild(div);
-					for (let index = 0; index < arr.length; index++) {		//给新创建的a标签加属性
-						if (arr[index] == 'null') {
-							$('#' + divid + ' a').eq(index).attr("disabled", true);
-							$('#' + divid + ' a').eq(index).css("pointer-events", "none");
-						} else {
-							$('#' + divid + ' a').eq(index).attr("value", index + 1);
-							$('#' + divid + ' a').eq(index).attr("text", strArr.slice(-1));
-						}
-					}
-					document.querySelector('#showpy label').innerHTML = strArr.slice(-1)
-					$('.py').show();
-
-				} else {
-					if (arr.length != 1) {
-						for (let index = 0; index < arr.length; index++) {
-							div = document.createElement('div');
-							div.className = "large-3 medium-3 small-4 cell";
-							a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
-							a.className = "button expanded chinesepinyin3";
-							a.innerText = arr[index];
-							div.appendChild(a);
-							divobj.appendChild(div);
-						}
-					} else {
-						$('#split_pinyin').attr('maxlength', arr[0].length);
-						let newArr = [];
-						newArr = slpitPy(arr[0])//这句有改动
-						console.log('newArr is :', newArr)
-						arr = getpysd(newArr);
-						div = document.createElement('div');	//创建htm元素
-						div.className = "large-8 medium-8 cell";
-						div2 = document.createElement('div');
-						div2.className = "expanded button-group large";
-						for (let index = 0; index < arr.length; index++) {
-							a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
-							a.className = "button expanded chinesepinyin3 customBtn";
-							if (arr[index] == 'null') {
-								a.innerText = '≠≠≠';
-							} else {
-								a.innerText = arr[index];
-							}
-							div2.appendChild(a);
-						}
-						div.appendChild(div2);
-						divobj.appendChild(div);
-						for (let index = 0; index < arr.length; index++) {		//给新创建的a标签加属性
-							if (arr[index] == 'null') {
-								$('#' + divid + ' a').eq(index).attr("disabled", true);
-								$('#' + divid + ' a').eq(index).css("pointer-events", "none");
-							} else {
-								$('#' + divid + ' a').eq(index).attr("value", index + 1);
-								$('#' + divid + ' a').eq(index).attr("text", strArr.slice(-1));
-							}
-						}
-						document.querySelector('#showpy label').innerHTML = strArr.slice(-1);
-						$('.py').show();
-					}
-				}
-			} else {	//click模式
-				arr = getpysd(strArr);
-				div = document.createElement('div');
-				div.className = "large-8 medium-8 cell";
-				div2 = document.createElement('div');
-				div2.className = "expanded button-group large";
-				for (let index = 0; index < arr.length; index++) {
-					a = document.createElement("a"); //创建一个li标签 li.innerHTML = "123"; //给li标签赋值   
-					a.className = "button expanded chinesepinyin3 customBtn";
-					if (arr[index] == 'null') {
-						a.innerText = '≠≠≠';
-					} else {
-						a.innerText = arr[index];
-					}
-					div2.appendChild(a);
-				}
-				div.appendChild(div2);
-				divobj.appendChild(div);
-				for (let index = 0; index < arr.length; index++) {
-					if (arr[index] == 'null') {
-						$('#' + divid + ' a').eq(index).attr("disabled", true);
-						$('#' + divid + ' a').eq(index).css("pointer-events", "none");
-					} else {
-						$('#' + divid + ' a').eq(index).attr("value", index + 1);
-						$('#' + divid + ' a').eq(index).attr("text", strArr.slice(-1));
-					}
-				}
-				document.querySelector('#showpy label').innerHTML = strArr.slice(-1);
-				$('.py').show();
-			}
-			return arr.length
 		}
-	} else {	//当strArr为空时，生成一级页面，也就是声母列表
-		//arr[40]的值是'b'
-		for (let index = 40; index < arr.length; index++) {
+	} else {
+		for (let index = 42; index < arr.length; index++) {
 			div = document.createElement('div');
 			div.className = "large-3 medium-3 small-4 cell";
 			a = document.createElement("a");
@@ -795,165 +639,84 @@ function createList(strArr, divid) {
 	}
 }
 
-
-/**
- * //返回某个拼音所有声调的拼音
- * @param {*} strArr 为数组，数据格式如例：["b", "ba"]，["ch", "chuang"]
- * @returns 
- */
-function getpysd(strArr) {
-	// console.log(strArr)
-	return array[strArr[0]][strArr[1]];
-}
-
-/**
- * 接收一个完整拼音字符串，返回一个分解后的数组，返回例子['zh', 'zhuang']
- * @param {*} str 
- * @returns 
- */
-function slpitPy(str) {
-	var arr = [], zcs = ['zh', 'ch', 'sh'];
-	if (zcs.includes(str.slice(0, 2))) {
-		arr.push(str.slice(0, 2))
-	} else {
-		arr.push(str.slice(0, 1))
-	}
-	arr.push(str)
-	return arr
-}
-
-/**
- * 筛查并返回数组中以某个字符串开头所有的元素的数组，所以这里返回的是一个array
- * @param {*} str 要筛查的字符串，这里必须是开头的字符串
- * @returns 
- */
-function finElementForArr(str) {
-	var ymarr, smarr
-	ymarr = Object.keys(array).slice(0, 24);
-	smarr = Object.keys(array).slice(40);
-	if (ymarr.includes(str)) {
-		return array[str]
-	} else {
-		var pyarr, newstr;
-		if (str.length > 1) {
-			for (let i = 1; i <= str.length; i++) {
-				newstr = str.slice(0, i)
-				if (smarr.includes(newstr)) {
-					pyarr = Object.keys(array[newstr])
-				} else {
-					pyarr = pyarr.filter(function (ele, index) { return ele.startsWith(newstr) })
-				}
-			}
-			return pyarr
-		} else {
-			return Object.keys(array[str])
-		}
-	}
-}
-
 function delay(time) {
 	return new Promise(succ => {
 		setTimeout(succ, time)
 	})
 }
 
+async function readPy(str, num, obj) {
+	var val = isExistPinYin(str)
+	if (typeof val == 'string') {
+		obj.mp3.src = obj.hanyuPyUrl + val + num + '.mp3';
+		obj.player.load();
+		obj.player.play();
+	} else {
+		for (let index = 0; index < val.length; index++) {
+			switch (index) {
+				case val.length - 1:
+					obj.mp3.src = obj.baiduPyUrl + val[index] + num + '.mp3';
+					break;
+				case val.length - 2:
+					obj.mp3.src = obj.hanyuPyUrl + val[index] + num + '.mp3';
+					break;
+				default:
+					obj.mp3.src = obj.hanyuPyUrl + val[index] + '.mp3';
+					break;
+			}
+			obj.player.load();
+			obj.player.play();
+			await delay(1000);
+		}
+	}
+}
+
 $(function () {
-	var player = $("#player")[0];
-	var baiduPyUrl = 'https://hanyu-word-pinyin-short.cdn.bcebos.com/';
-	var hanyuPyUrl = 'http://du.hanyupinyin.cn/du/pinyin/';
-	var mp3 = document.createElement('source');
-	mp3.type = 'audio/mpeg';
-	$("#player").append(mp3);
-	// pyArr = []; //定义一个数组来保存点击每个a标签的值，例如:pyArr = ['b', 'ai']
-	createList(pyArr, 'smlist'); //调用createList来创建元素
-	$("div#smlist").delegate("a", "click", async function () {
-		flag = 'click';
-		if (i < 2) {
-			pyArr.push($(this).html()); //把每次点击的值保存到数组里面
-			$('#smlist').empty() //清空smlist下所有元素
-			num = createList(pyArr, 'smlist')
+	var obj = {}, str = ""
+	obj.player = $("#player")[0];
+	obj.baiduPyUrl = 'https://hanyu-word-pinyin-short.cdn.bcebos.com/';
+	obj.hanyuPyUrl = 'http://du.hanyupinyin.cn/du/pinyin/';
+	obj.mp3 = document.createElement('source');
+	obj.mp3.type = 'audio/mpeg';
+	$("#player").append(obj.mp3);
+	createList("", 'smlist'); //调用createList来创建元素
+	$("div#smlist").delegate("a", "click", function () {
+		if (document.querySelectorAll('#smlist .large a').length > 0) {
+			str = $(this).attr('text')
+			readPy(str, $(this).attr('value'), obj)
+		} else {
+			str = $(this).html()
+			$('#smlist').empty()
+			createList(str, 'smlist')
 			$('.reset').show();
-		} else if (typeof isExistPinYin(pyArr[1]) == 'string') {
-			arr = isExistPinYin(pyArr[1]);
-			mp3.src = hanyuPyUrl + arr + $(this).attr('value') + '.mp3';
-			console.log(player)
-			player.load();
-			player.play();
-		} else {
-			arr = isExistPinYin(pyArr[1]);
-			console.log(arr)
-			for (let index = 0; index < arr.length; index++) {
-				if (index < arr.length - 1) {
-					if (index < arr.length - 2) {
-						mp3.src = hanyuPyUrl + arr[index] + '.mp3';
-					} else {
-						mp3.src = hanyuPyUrl + arr[index] + $(this).attr('value') + '.mp3';
-					}
-				} else {
-					mp3.src = baiduPyUrl + arr[index] + $(this).attr('value') + '.mp3';
-					console.log(mp3.src)
-				}
-				player.load();
-				player.play();
-				await delay(1000);
-			}
 		}
-		i++;
 	});
-	$('#ydlist').delegate('a', 'click', async function () {
-		flag = 'click';
-		var pyArr;
+	$('#ydlist').delegate('a', 'click', function () {
 		if (document.querySelectorAll('#ydlist .large a').length > 0) {
-			pyArr = $(this).attr('text');
-			if (Object.keys(array).slice(0, 24).includes(pyArr)) {
-				mp3.src = hanyuPyUrl + pyArr + $(this).attr('value') + '.mp3';
-				player.load();
-				player.play();
-				await delay(1000);
-			} else {
-				arr = isExistPinYin(pyArr);
-				console.log(arr)
-				for (let index = 0; index < arr.length; index++) {
-					if (index < arr.length - 1) {
-						if (index < arr.length - 2) {
-							mp3.src = hanyuPyUrl + arr[index] + '.mp3';
-						} else {
-							mp3.src = hanyuPyUrl + arr[index] + $(this).attr('value') + '.mp3';
-						}
-					} else {
-						mp3.src = baiduPyUrl + arr[index] + $(this).attr('value') + '.mp3';
-						console.log(mp3.src)
-					}
-					player.load();
-					player.play();
-					await delay(1000);
-				}
-			}
+			str = $(this).attr('text');
+			readPy(str, $(this).attr('value'), obj)
 		} else {
+			str = $(this).html();
 			$('#ydlist').empty();
-			pyArr = $(this).html();
-			createList(slpitPy(pyArr), 'ydlist');
+			createList(str, 'ydlist');
 		}
-	})
+	});
 	$('.combined').on('click', function () {
-		flag = 'click';
-		pyArr = [];
-		i = 0;
 		$('#smlist').empty();
 		$('#ydlist').empty();
-		createList(pyArr, 'smlist')
+		createList("", 'smlist')
 		$($('.py')).hide();
 		$($('.toggle')[0]).show();
 		$($('.toggle')[1]).hide();
 		$($('.reset')[0]).hide();
 	});
 	$('.split').on('click', function () {
-		flag = 'input'
-		i = 1;
 		$($('.py')).hide();
 		$($('.toggle')[0]).hide();
 		$($('.toggle')[1]).show();
 		$($('.reset')[0]).hide();
+		$('#ydlist').empty();
+		document.querySelector('#split_pinyin').value = "";
 	});
 	$('#split_pinyin').on('click', function () {
 		$('#split_pinyin').attr("style", "color: #0a0a0a");
@@ -963,15 +726,12 @@ $(function () {
 	$('#split_pinyin').bind('input propertychange', function () {
 		$('#ydlist').empty();
 		$('#showpy').hide();
-		var strArr = [];
-		strArr.push($('#split_pinyin').val());
-		createList(strArr, 'ydlist');
+		str = $('#split_pinyin').val();
+		createList(str, 'ydlist');
 	})
 	$('.reset').on('click', function () {
-		pyArr = [];
-		i = 0;
 		$('#smlist').empty();
-		createList(pyArr, 'smlist');
+		createList("", 'smlist');
 		$($('.py')).hide();
 		$($('.toggle')[0]).show();
 		$($('.toggle')[1]).hide();
